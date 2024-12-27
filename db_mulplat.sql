@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 26, 2024 at 09:38 AM
+-- Generation Time: Dec 27, 2024 at 09:58 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.12
 
@@ -32,16 +32,17 @@ CREATE TABLE `cars` (
   `brand` varchar(50) DEFAULT NULL,
   `model` varchar(50) DEFAULT NULL,
   `year` year DEFAULT NULL,
-  `price` decimal(10,2) DEFAULT NULL
+  `price` decimal(10,2) DEFAULT NULL,
+  `jumlah` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `cars`
 --
 
-INSERT INTO `cars` (`car_id`, `brand`, `model`, `year`, `price`) VALUES
-(1, 'Masamba', 'KEncana', 2069, '12000.00'),
-(2, 'amba', 'ngawi', 1945, '6969.00');
+INSERT INTO `cars` (`car_id`, `brand`, `model`, `year`, `price`, `jumlah`) VALUES
+(4, 'Mazda', 'GTR-X', 2020, '12000.00', 12),
+(5, 'Toyota', 'Supra', 2020, '17000.00', 17);
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,7 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`transactions_id`, `car_id`, `user_id`, `transaction_date`) VALUES
-(1, 1, 1, '2024-12-05');
+(11, 4, 1, '2024-12-20');
 
 -- --------------------------------------------------------
 
@@ -83,7 +84,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `phone`, `address`) VALUES
-(1, 'Admin', 'admin@example.com', 'admin123', '081234567890', '123 Main Street, City A');
+(1, 'User', 'user@example.com', 'user123', '081234567890', '123 Main Street, City A'),
+(2, 'kaisar', 'kaisar@example.com', 'kaisar123', '085764134767', '123 Mesen Parkir, City A');
 
 --
 -- Indexes for dumped tables
@@ -118,19 +120,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cars`
 --
 ALTER TABLE `cars`
-  MODIFY `car_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `car_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `transactions_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `transactions_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

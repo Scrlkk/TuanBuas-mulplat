@@ -1,4 +1,14 @@
 <%@ include file="../db.jsp" %>
+<% 
+    String error = request.getParameter("error");
+    if ("login_required".equals(error)) {
+%>
+    <script>
+        alert("Please log in to access this page.");
+    </script>
+<% 
+    }
+%>
 <%
     String email = request.getParameter("email");
     String password = request.getParameter("password");
@@ -14,13 +24,26 @@
                 session.setAttribute("user", rs.getString("name"));
                 response.sendRedirect("dashboard.jsp");
             } else {
-                out.println("<p class='text-red-500'>Invalid email or password!</p>");
+                // Tampilkan alert jika email atau password salah
+%>
+                <script>
+                    alert("Invalid email or password!");
+                    window.location.href = "login.jsp"; // Redirect ke halaman login
+                </script>
+<%
             }
         } catch (Exception e) {
-            out.println("<p class='text-red-500'>Error: " + e.getMessage() + "</p>");
+            // Tampilkan alert jika terjadi error pada server
+%>
+            <script>
+                alert("Error: <%= e.getMessage() %>");
+                window.location.href = "login.jsp"; // Redirect ke halaman login
+            </script>
+<%
         }
     }
 %>
+
 
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/4">

@@ -1,17 +1,20 @@
+<%@ include file="../session/session_check.jsp" %>
 <%@ include file="../db.jsp" %>
 <%
     String brand = request.getParameter("brand");
     String model = request.getParameter("model");
     String year = request.getParameter("year");
     String price = request.getParameter("price");
+    String jumlah = request.getParameter("jumlah");
 
     if (brand != null) {
         try {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Cars (brand, model, year, price) VALUES (?, ?, ?, ?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Cars (brand, model, year, price, jumlah) VALUES (?, ?, ?, ?, ?)");
             ps.setString(1, brand);
             ps.setString(2, model);
             ps.setInt(3, Integer.parseInt(year));
             ps.setDouble(4, Double.parseDouble(price));
+            ps.setInt(5,Integer.parseInt(jumlah));
             ps.executeUpdate();
             response.sendRedirect("../pages/dashboard.jsp");
         } catch (Exception e) {
@@ -41,6 +44,11 @@
         <div>
             <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Price:</label>
             <input type="number" step="0.01" name="price" id="price" required 
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+            <label for="jumlah" class="block text-sm font-medium text-gray-700 mb-2">Jumlah:</label>
+            <input type="number" step="0.01" name="jumlah" id="jumlah" required 
                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <button type="submit" 

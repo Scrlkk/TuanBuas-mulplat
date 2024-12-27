@@ -1,3 +1,4 @@
+<%@ include file="../session/session_check.jsp" %>
 <%@ page import="java.sql.*" %>
 <%@ include file="../db.jsp" %>
 <%

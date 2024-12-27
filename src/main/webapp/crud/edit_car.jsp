@@ -1,3 +1,4 @@
+<%@ include file="../session/session_check.jsp" %>
 <%@ include file="../db.jsp" %>
 <%
     String id = request.getParameter("id");
@@ -5,6 +6,7 @@
     String model = "";
     int year = 0;
     double price = 0.0;
+    int jumlah = 0;
 
     if (id != null) {
         try {
@@ -18,6 +20,7 @@
                 model = rs.getString("model");
                 year = rs.getInt("year");
                 price = rs.getDouble("price");
+                jumlah = rs.getInt("jumlah");
             } else {
                 out.println("<p>Car not found for ID: " + id + "</p>");
             }
@@ -51,6 +54,11 @@
                 <input type="number" step="0.01" name="price" id="price" value="<%= price %>" required
                     class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
+            <div>
+                <label for="jumlah" class="block text-sm font-medium text-gray-700 mb-2">Jumlah:</label>
+                <input type="number" step="0.01" name="jumlah" id="jumlah" value="<%= jumlah %>" required
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
             <input type="hidden" name="id" value="<%= id %>" />
             <button type="submit"
                 class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
@@ -66,17 +74,19 @@
     String newModel = request.getParameter("model");
     String newYear = request.getParameter("year");
     String newPrice = request.getParameter("price");
+    String newJumlah = request.getParameter("jumlah");
 
     if (newBrand != null && newModel != null && newYear != null && newPrice != null) {
         try {
             PreparedStatement ps = conn.prepareStatement(
-                "UPDATE Cars SET brand = ?, model = ?, year = ?, price = ? WHERE car_id = ?"
+                "UPDATE Cars SET brand = ?, model = ?, year = ?, price = ?, jumlah = ? WHERE car_id = ?"
             );
             ps.setString(1, newBrand);
             ps.setString(2, newModel);
             ps.setInt(3, Integer.parseInt(newYear));
             ps.setDouble(4, Double.parseDouble(newPrice));
-            ps.setInt(5, Integer.parseInt(id));
+            ps.setInt(5, Integer.parseInt(newJumlah));
+            ps.setInt(6, Integer.parseInt(id));
             ps.executeUpdate();
 
             out.println("<p>Car updated successfully!</p>");

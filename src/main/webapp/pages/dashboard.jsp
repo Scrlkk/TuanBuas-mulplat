@@ -1,10 +1,11 @@
+<%@ include file="../session/session_check.jsp" %>
 <%@ page import="java.sql.*" %>
 <%@ include file="../db.jsp" %>
+<div class="py-12">
 <div class="container mx-auto p-8 bg-gray-50 rounded-lg shadow-lg">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800">Welcome, <%= session.getAttribute("user") %></h1>
     <div class="flex justify-between mb-8">
-        <a href="../crud/add_car.jsp" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">Add New Car</a>
-        <a href="logout.jsp" class="bg-red-600 text-white px-6 py-3 rounded hover:bg-red-700">Logout</a>
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Welcome, <%= session.getAttribute("user") %></h1>
+        <a href="logout.jsp" class="bg-red-600 text-white px-5 py-3 mb-2 rounded hover:bg-red-700">Logout</a>
     </div>
 
     <!-- Transaction History Section -->
@@ -15,6 +16,7 @@
                 <tr class="bg-gray-200">
                     <th class="border border-gray-300 px-6 py-4 text-gray-700">Transaction ID</th>
                     <th class="border border-gray-300 px-6 py-4 text-gray-700">Car Brand</th>
+                    <th class="border border-gray-300 px-6 py-4 text-gray-700">Car Model</th>
                     <th class="border border-gray-300 px-6 py-4 text-gray-700">User Name</th>
                     <th class="border border-gray-300 px-6 py-4 text-gray-700">Transaction Date</th>
                     <th class="border border-gray-300 px-6 py-4 text-gray-700">Actions</th>
@@ -24,7 +26,7 @@
                 <%
                     try {
                         PreparedStatement ps = conn.prepareStatement(
-                            "SELECT t.transactions_id, c.brand, u.name, t.transaction_date " +
+                            "SELECT t.transactions_id, c.brand, c.model, u.name, t.transaction_date " +
                             "FROM Transactions t " +
                             "JOIN Cars c ON t.car_id = c.car_id " +
                             "JOIN Users u ON t.user_id = u.user_id"
@@ -35,6 +37,7 @@
                 <tr>
                     <td class="border border-gray-300 px-6 py-4"><%= rs.getInt("transactions_id") %></td>
                     <td class="border border-gray-300 px-6 py-4"><%= rs.getString("brand") %></td>
+                    <td class="border border-gray-300 px-6 py-4"><%= rs.getString("model") %></td>
                     <td class="border border-gray-300 px-6 py-4"><%= rs.getString("name") %></td>
                     <td class="border border-gray-300 px-6 py-4"><%= rs.getDate("transaction_date") %></td>
                     <td class="border border-gray-300 px-6 py-4">
@@ -53,8 +56,11 @@
                 %>
             </tbody>
         </table>
+        
+        
     </div>
-
+    
+    <!-- New Transaction -->
     <h3 class="text-lg font-semibold mt-8 mb-4 text-gray-700">Add New Transaction</h3>
     <form action="../crud/add_transaction.jsp" method="POST" class="space-y-6 bg-white p-6 rounded-lg shadow-md">
         <div>
@@ -108,7 +114,10 @@
     </form>
 
     <!-- Car List Section -->
-    <h2 class="text-2xl font-semibold mt-8 mb-4 text-gray-700">Car List</h2>
+    <div class="flex justify-between pt-8 pb-2">
+    <h2 class="text-2xl font-semibold text-gray-700">Car List</h2>
+    <a href="../crud/add_car.jsp" class="bg-blue-600 text-white rounded px-4 py-3 hover:bg-blue-700">Add New Car</a>
+    </div>
     <div class="overflow-x-auto">
         <table class="table-auto w-full border-collapse border border-gray-300 bg-white rounded-lg text-left">
             <thead>
@@ -117,6 +126,7 @@
                     <th class="border border-gray-300 px-6 py-4 text-gray-700">Model</th>
                     <th class="border border-gray-300 px-6 py-4 text-gray-700">Year</th>
                     <th class="border border-gray-300 px-6 py-4 text-gray-700">Price</th>
+                    <th class="border border-gray-300 px-6 py-4 text-gray-700">Jumlah</th>
                     <th class="border border-gray-300 px-6 py-4 text-gray-700">Actions</th>
                 </tr>
             </thead>
@@ -132,6 +142,7 @@
                     <td class="border border-gray-300 px-6 py-4"><%= rs.getString("model") %></td>
                     <td class="border border-gray-300 px-6 py-4"><%= rs.getInt("year") %></td>
                     <td class="border border-gray-300 px-6 py-4">$<%= rs.getDouble("price") %></td>
+                    <td class="border border-gray-300 px-6 py-4"><%= rs.getInt("jumlah") %></td>
                     <td class="border border-gray-300 px-6 py-4">
                         <a href="../crud/edit_car.jsp?id=<%= rs.getInt("car_id") %>" class="text-blue-500 underline hover:text-blue-700">Edit</a> | 
                         <a href="../crud/delete_car.jsp?id=<%= rs.getInt("car_id") %>" class="text-red-500 underline hover:text-red-700" onclick="return confirm('Are you sure you want to delete this car?')">Delete</a>
@@ -146,4 +157,5 @@
             </tbody>
         </table>
     </div>
+</div>
 </div>
